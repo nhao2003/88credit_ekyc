@@ -24,7 +24,7 @@ export interface Imgs {
 
 export interface FaceResponseObject {
   result: string;
-  msg: string;
+  msg: 'NOMATCH' | 'MATCH';
   prob: number;
   match_warning: string;
   multiple_faces: boolean;
