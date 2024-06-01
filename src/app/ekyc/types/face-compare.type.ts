@@ -12,7 +12,7 @@ export interface FaceCompareResponse {
   logID: string;
   message: string;
   server_version: string;
-  object: FaceResponseObject;
+  object: FaceCompareResponseObject;
   statusCode: number;
   challengeCode: string;
 }
@@ -22,7 +22,7 @@ export interface Imgs {
   img_front: string;
 }
 
-export interface FaceResponseObject {
+export interface FaceCompareResponseObject {
   result: string;
   msg: 'NOMATCH' | 'MATCH';
   prob: number;

@@ -5,7 +5,7 @@ import { Observable, catchError, map } from 'rxjs';
 import {
   FrontImageExtractRequest,
   FrontImageReponse,
-} from './types/front-image..type';
+} from './types/front-image.type';
 import {
   BackImageExtractRequest,
   BackImageReponse,

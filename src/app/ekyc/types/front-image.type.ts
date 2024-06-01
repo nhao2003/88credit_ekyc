@@ -12,7 +12,7 @@ export interface FrontImageReponse {
   logID: string;
   message: string;
   server_version: string;
-  object: FrontReponseObject;
+  object: FrontImageReponseObject;
   statusCode: number;
   challengeCode: string;
 }
@@ -21,7 +21,7 @@ export interface Imgs {
   img_front: string;
 }
 
-export interface FrontReponseObject {
+export interface FrontImageReponseObject {
   origin_location: string;
   msg: string;
   name_prob: number;

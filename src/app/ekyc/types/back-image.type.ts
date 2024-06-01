@@ -11,7 +11,7 @@ export interface BackImageReponse {
   logID: string;
   message: string;
   server_version: string;
-  object: BackImageObject;
+  object: BackImageReponseObject;
   statusCode: number;
   challengeCode: string;
 }
@@ -20,7 +20,7 @@ export interface Imgs {
   img_back: string;
 }
 
-export interface BackImageObject {
+export interface BackImageReponseObject {
   issue_place: string;
   issue_date_probs: number[];
   back_type_id: number;

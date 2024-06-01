@@ -4,8 +4,7 @@ import { SwaggerConfig } from './configs/docs/swagger.config';
 import { EnvConstants } from './common/constants/env/env.constants';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-import { WsGuard } from './core/guards';
-import { JwtService } from '@nestjs/jwt';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   SwaggerConfig.config(app);
