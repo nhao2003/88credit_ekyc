@@ -1,11 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
-
-export enum EkycFileType {
-  face,
-  frontIdentityCard,
-  backIdentityCard,
-}
+import { EkycFileType } from 'src/app/ekyc/enum/enum';
 
 @Schema({
   timestamps: true,
@@ -16,7 +11,10 @@ export class EkycFile extends Document {
   userId: Types.ObjectId;
 
   @Prop({ required: true, enum: EkycFileType })
-  fileType: EkycFileType;
+  ekycFileType: EkycFileType;
+
+  @Prop({ required: true })
+  fileType: string;
 
   @Prop({ required: true })
   url: string;

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { FaceService } from './face.service';
 import { CreateFaceDto } from './dto/create-face.dto';
 import { UpdateFaceDto } from './dto/update-face.dto';
