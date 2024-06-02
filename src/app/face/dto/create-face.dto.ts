@@ -1,1 +1,5 @@
-export class CreateFaceDto {}
+export class CreateFaceDto {
+  file: Express.Multer.File;
+  title: string;
+  description: string;
+}

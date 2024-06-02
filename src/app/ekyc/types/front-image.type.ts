@@ -1,3 +1,4 @@
+import e from 'express';
 import { ImageExtractRequest } from './image-extract-request.type';
 
 export type FrontImageExtractRequest = ImageExtractRequest & {

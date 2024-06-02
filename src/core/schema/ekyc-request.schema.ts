@@ -6,6 +6,7 @@ import { FrontImageReponseObject } from 'src/app/ekyc/types/front-image.type';
 import { EkycFile } from './ekyc-file.schema';
 
 export enum EkycStatus {
+  initiated = 'initiated',
   pending = 'pending',
   approved = 'approved',
   rejected = 'rejected',
@@ -19,32 +20,35 @@ export class EkycRequest extends Document {
   @Prop({ type: Types.ObjectId, required: true, index: true })
   userId: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: EkycStatus.initiated, enum: EkycStatus })
   status: EkycStatus;
 
   @Prop({ required: false })
   reason?: string;
 
-  @Prop({ required: true, type: EkycFile })
-  frontIdentityCard: string;
+  @Prop({ required: false, ref: EkycFile.name, type: Types.ObjectId })
+  frontIdentityCard: string | EkycFile;
 
-  @Prop({ required: true, type: EkycFile })
-  backIdentityCard: string;
+  @Prop({ required: false, ref: EkycFile.name, type: Types.ObjectId })
+  backIdentityCard: string | EkycFile;
 
-  @Prop({ required: true })
-  face: string;
+  @Prop({ required: false, ref: EkycFile.name, type: Types.ObjectId })
+  face: string | EkycFile;
 
-  @Prop({ required: false })
-  frontIdentityCardOcrResult: FrontImageReponseObject;
+  @Prop({ required: false, type: String })
+  videoSelfieUrl: string | null;
 
-  @Prop({ required: false })
-  backIdentityCardOcrResult: BackImageReponseObject;
+  @Prop({ required: false, type: Types.Map })
+  frontIdentityCardOcrResult: FrontImageReponseObject | null;
 
-  @Prop({ required: false })
-  faceComparisonResult: FaceCompareResponseObject;
+  @Prop({ required: false, type: Types.Map })
+  backIdentityCardOcrResult: BackImageReponseObject | null;
 
-  @Prop({ required: false })
-  approvedAt?: Date;
+  @Prop({ required: false, type: Types.Map })
+  faceComparisonResult: FaceCompareResponseObject | null;
+
+  @Prop({ required: false, type: Types.Map })
+  approvedAt: Date | null;
 }
 
 export const EkycRequestSchema = SchemaFactory.createForClass(EkycRequest);

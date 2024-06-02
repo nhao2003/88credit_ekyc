@@ -1,42 +1,48 @@
+import { FaceService } from './face.service';
+import { GetCurrentUserId } from 'src/core/decorators';
+import { CreateFaceDto } from './dto/create-face.dto';
 import {
   Controller,
-  Get,
   Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Body,
+  UploadedFile,
+  Req,
+  UseInterceptors,
 } from '@nestjs/common';
-import { FaceService } from './face.service';
-import { CreateFaceDto } from './dto/create-face.dto';
-import { UpdateFaceDto } from './dto/update-face.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('face')
 export class FaceController {
   constructor(private readonly faceService: FaceService) {}
 
-  @Post()
-  create(@Body() createFaceDto: CreateFaceDto) {
-    return this.faceService.create(createFaceDto);
+  @Post(':requestId/add-face')
+  @UseInterceptors(FileInterceptor('file'))
+  addFace(
+    @GetCurrentUserId() userId: string,
+    @Param('requestId') requestId: string,
+    @Body() body: CreateFaceDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.faceService.addFace(userId, requestId, {
+      title: body.title,
+      description: body.description,
+      file: file,
+    });
   }
 
-  @Get()
-  findAll() {
-    return this.faceService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.faceService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFaceDto: UpdateFaceDto) {
-    return this.faceService.update(+id, updateFaceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.faceService.remove(+id);
+  @Post(':requestId/add-video-selfie')
+  @UseInterceptors(FileInterceptor('file'))
+  addVideoSelfie(
+    @GetCurrentUserId() userId: string,
+    @Param('requestId') requestId: string,
+    @Body() body: CreateFaceDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.faceService.addVideoSelfie(userId, requestId, {
+      title: body.title,
+      description: body.description,
+      file: file,
+    });
   }
 }

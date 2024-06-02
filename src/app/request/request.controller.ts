@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
+import { GetCurrentUserId } from 'src/core/decorators';
 
 @Controller('request')
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @Post()
-  create(@Body() createRequestDto: CreateRequestDto) {
-    return this.requestService.create(createRequestDto);
+  getLatestUnfinishedRequestOrCreate(@GetCurrentUserId() userId: string) {
+    return this.requestService.getLatestUnfinishedRequestOrCreate(userId);
   }
 
-  @Get()
-  findAll() {
-    return this.requestService.findAll();
+  @Post('submit/:id')
+  submitRequest(
+    @GetCurrentUserId() userId: string,
+    @Param('id') requestId: string,
+  ) {
+    return this.requestService.submitRequest(userId, requestId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.requestService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRequestDto: UpdateRequestDto) {
-    return this.requestService.update(+id, updateRequestDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.requestService.remove(+id);
+  findOne(@GetCurrentUserId() userId: string, @Param('id') id: string) {
+    return this.requestService.findById(userId, id);
   }
 }

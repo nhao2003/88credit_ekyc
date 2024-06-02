@@ -18,5 +18,6 @@ import { HttpModule } from '@nestjs/axios';
   ],
   controllers: [FileController],
   providers: [FileService],
+  exports: [FileService],
 })
 export class FileModule {}

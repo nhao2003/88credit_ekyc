@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { HttpService } from '@nestjs/axios';
@@ -33,7 +33,10 @@ export class FileService {
   private async uploadToServerStorage(
     file: Express.Multer.File,
     folder: string,
-  ) {
+  ): Promise<string> {
+    if (!file) {
+      throw new BadRequestException('File is required');
+    }
     const formData = new FormData();
     formData.append('file', new Blob([file.buffer]), file.originalname);
     formData.append('folder', folder);
@@ -74,5 +77,17 @@ export class FileService {
       ...ekycReponse.object,
     });
     return file;
+  }
+
+  async addVideo(createFileDto: CreateFileDto) {
+    const res = await this.uploadToServerStorage(
+      createFileDto.file,
+      'ekyc/' + createFileDto.userId,
+    );
+    return res;
+  }
+
+  findOne(id: string) {
+    return this.ekycFileModel.findById(id);
   }
 }
