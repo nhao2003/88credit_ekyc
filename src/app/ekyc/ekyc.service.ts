@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import {
@@ -78,8 +78,7 @@ export class EkycServiceImpl extends EkycService {
       );
       return response.data;
     } catch (error) {
-      console.error(error);
-      throw error;
+      throw new BadRequestException(error);
     }
   }
 
@@ -105,7 +104,7 @@ export class EkycServiceImpl extends EkycService {
         map((response) => response.data),
         catchError((error) => {
           console.error(error);
-          throw error;
+          throw new BadRequestException(error);
         }),
       ),
     );
@@ -118,8 +117,7 @@ export class EkycServiceImpl extends EkycService {
       this.httpService.post('/ai/v1/face/compare', data).pipe(
         map((response) => response.data),
         catchError((error) => {
-          console.error(error);
-          throw error;
+          throw new BadRequestException(error);
         }),
       ),
     );

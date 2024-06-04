@@ -1,36 +1,27 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { RequestService } from './request.service';
-import { CreateRequestDto } from './dto/create-request.dto';
-import { UpdateRequestDto } from './dto/update-request.dto';
-import { GetCurrentUserId } from 'src/core/decorators';
+import { MessagePattern } from '@nestjs/microservices';
+import { RpcParam, RpcUserId } from 'src/common/decorators';
 
-@Controller('request')
+@Controller()
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
-  @Post()
-  getLatestUnfinishedRequestOrCreate(@GetCurrentUserId() userId: string) {
+  @MessagePattern('ekyc.request.get-or-create')
+  getLatestUnfinishedRequestOrCreate(@RpcUserId() userId: string) {
     return this.requestService.getLatestUnfinishedRequestOrCreate(userId);
   }
 
-  @Post('submit/:id')
+  @MessagePattern('ekyc.request.submit')
   submitRequest(
-    @GetCurrentUserId() userId: string,
-    @Param('id') requestId: string,
+    @RpcUserId() userId: string,
+    @RpcParam('id') requestId: string,
   ) {
     return this.requestService.submitRequest(userId, requestId);
   }
 
-  @Get(':id')
-  findOne(@GetCurrentUserId() userId: string, @Param('id') id: string) {
+  @MessagePattern('ekyc.request.get-by-id')
+  findOne(@RpcUserId() userId: string, @RpcParam('id') id: string) {
     return this.requestService.findById(userId, id);
   }
 }

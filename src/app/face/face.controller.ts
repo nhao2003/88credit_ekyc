@@ -1,28 +1,19 @@
 import { FaceService } from './face.service';
-import { GetCurrentUserId } from 'src/core/decorators';
 import { CreateFaceDto } from './dto/create-face.dto';
-import {
-  Controller,
-  Post,
-  Param,
-  Body,
-  UploadedFile,
-  Req,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller } from '@nestjs/common';
+import { RpcBody, RpcFile, RpcParam, RpcUserId } from 'src/common/decorators';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('face')
 export class FaceController {
   constructor(private readonly faceService: FaceService) {}
 
-  @Post(':requestId/add-face')
-  @UseInterceptors(FileInterceptor('file'))
+  @MessagePattern('ekyc.face.add')
   addFace(
-    @GetCurrentUserId() userId: string,
-    @Param('requestId') requestId: string,
-    @Body() body: CreateFaceDto,
-    @UploadedFile() file: Express.Multer.File,
+    @RpcUserId() userId: string,
+    @RpcParam('requestId') requestId: string,
+    @RpcBody() body: CreateFaceDto,
+    @RpcFile() file: Express.Multer.File,
   ) {
     return this.faceService.addFace(userId, requestId, {
       title: body.title,
@@ -31,13 +22,12 @@ export class FaceController {
     });
   }
 
-  @Post(':requestId/add-video-selfie')
-  @UseInterceptors(FileInterceptor('file'))
+  @MessagePattern('ekyc.video.selfie.add')
   addVideoSelfie(
-    @GetCurrentUserId() userId: string,
-    @Param('requestId') requestId: string,
-    @Body() body: CreateFaceDto,
-    @UploadedFile() file: Express.Multer.File,
+    @RpcUserId() userId: string,
+    @RpcParam('requestId') requestId: string,
+    @RpcBody() body: CreateFaceDto,
+    @RpcFile() file: Express.Multer.File,
   ) {
     return this.faceService.addVideoSelfie(userId, requestId, {
       title: body.title,

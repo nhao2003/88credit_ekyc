@@ -12,6 +12,7 @@ abstract class EnvConstants {
   public static ekycAccessToken = 'EKYC_ACCESS_TOKEN';
   public static ekycTokenId = 'EKYC_TOKEN_ID';
   public static ekycTokenKey = 'EKYC_TOKEN_KEY';
+  public static RABBITMQ_HOST: string = 'RABBITMQ_HOST';
 }
 
 export { EnvConstants };
