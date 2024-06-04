@@ -28,7 +28,7 @@ export class AllExceptionsFilter extends BaseRpcExceptionFilter {
   }
 }
 async function bootstrap() {
-  const rabbitmqHost = process.env[EnvConstants.RABBITMQ_HOST] || 'localhost';
+  const rabbitmqHost = process.env[EnvConstants.RABBITMQ_HOST] ?? 'localhost';
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.RMQ,
     options: {

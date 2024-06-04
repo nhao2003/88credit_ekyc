@@ -12,6 +12,7 @@ import { RequestModule } from './app/request/request.module';
 import { TransformationInterceptor } from './core/interceptors';
 import { AccessTokenJwtGuard } from './core/guards';
 import { AccessTokenStrategy } from './core/strategies';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -25,6 +26,23 @@ import { AccessTokenStrategy } from './core/strategies';
         dbName: '88credit_ekyc',
       }),
       inject: [ConfigService],
+    }),
+    ClientsModule.register({
+      clients: [
+        {
+          name: 'Storage_SERVICE',
+          transport: Transport.RMQ,
+          options: {
+            urls: [
+              'amqp://guest:guest@' +
+                (process.env[EnvConstants.RABBITMQ_HOST] ?? 'localhost') +
+                ':5672',
+            ],
+            queue: 'storage_queue',
+          },
+        },
+      ],
+      isGlobal: true,
     }),
     EkycModule,
     FileModule,

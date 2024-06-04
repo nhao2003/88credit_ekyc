@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { HttpService } from '@nestjs/axios';
@@ -8,13 +8,14 @@ import { Model } from 'mongoose';
 import { EkycFile } from 'src/core/schema/ekyc-file.schema';
 import { catchError, firstValueFrom, lastValueFrom, map } from 'rxjs';
 import { FileResponse } from '../ekyc/types/file.type';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class FileService {
   constructor(
     private readonly ekycService: EkycService,
     @InjectModel(EkycFile.name) private readonly ekycFileModel: Model<EkycFile>,
-    private httpService: HttpService,
+    @Inject('Storage_SERVICE') private readonly clientProxy: ClientProxy,
   ) {}
 
   private async uploadToEkycServer(
@@ -37,23 +38,17 @@ export class FileService {
     if (!file) {
       throw new BadRequestException('File is required');
     }
-    const formData = new FormData();
-    formData.append('file', new Blob([file.buffer]), file.originalname);
-    formData.append('folder', folder);
-    const endPoint = '/media';
-    const response = await firstValueFrom(
-      this.httpService
-        .post(endPoint, formData, {
-          baseURL: 'http://localhost:4000',
+    const { data } = await firstValueFrom(
+      this.clientProxy
+        .send('storage.upload', {
+          file,
+          body: {
+            folder,
+          },
         })
-        .pipe(
-          map((response) => response.data),
-          catchError((error) => {
-            throw error;
-          }),
-        ),
+        .pipe(),
     );
-    return response.data;
+    return data;
   }
 
   async addFile(createFileDto: CreateFileDto) {
