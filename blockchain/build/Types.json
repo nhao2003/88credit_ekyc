@@ -1,0 +1,1065 @@
+{
+  "contractName": "Types",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Types.sol\":\"Types\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Types.sol\":{\"keccak256\":\"0x0827bc939a396ff5574bbb8d06995f41b8ce3c811e5f556011c0a9a0609e5c8b\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://9bd12dfcf7a88517364bd242c7ea10693f3780b2bf64e751e2d59548b95bb6b1\",\"dweb:/ipfs/QmccSjkH8BqCX4ABtUBgsLCUp9FgRp8AcRsN1t4d1qWTuc\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220adefa7c24aee671b5bb2089c0dd923029e5ab53e41554b892b8512ea6aba3ca064736f6c63430008150033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220adefa7c24aee671b5bb2089c0dd923029e5ab53e41554b892b8512ea6aba3ca064736f6c63430008150033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "70:1781:4:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "70:1781:4:-:0;;;;;;;;",
+  "source": "// SPDX-License-Identifier: GPL-3.0\npragma solidity >=0.4.16 <0.9.0;\n\nlibrary Types {\n    enum Role {\n        Admin, // 0\n        Organization, // 1\n        Customer // 2\n    }\n\n    enum OrganizationStatus {\n        Active, // 0\n        Inactive // 1\n    }\n\n    enum KycStatus {\n        Pending, // 0\n        KYCVerified, // 1\n        KYCFailed // 2\n    }\n\n    enum DataHashStatus {\n        Pending, // 0\n        Approved, // 1\n        Rejected // 2\n    }\n\n    struct User {\n        string name;\n        string email;\n        address id_;\n        Role role;\n        OrganizationStatus status;\n    }\n\n    struct Customer {\n        string name;\n        string email;\n        string mobileNumber;\n        address id_;\n        address kycVerifiedBy; // Address of the organization only if KYC gets verified\n        string dataHash; // Documents will be stored in decentralised storage & a hash will be created for the same\n        uint256 dataUpdatedOn;\n    }\n\n    struct Organization {\n        string name;\n        string email;\n        address id_;\n        string ifscCode;\n        uint16 kycCount; // How many KCY's did this organization completed so far\n        OrganizationStatus status; // RBI, we call \"admin\" here can disable the organization at any instance\n    }\n\n    struct KycRequest {\n        string id_; // Combination of customer Id & organization is going to be unique\n        address userId_;\n        string customerName;\n        address organizationId_;\n        string organizationName;\n        string dataHash;\n        uint256 updatedOn;\n        KycStatus status;\n        DataHashStatus dataRequest; // Get approval from user to access the data\n        string additionalNotes; // Notes that can be added if KYC verification fails  OR\n        // if customer rejects the access & organization wants to re-request with some message\n    }\n}\n",
+  "sourcePath": "C:\\Users\\nhath\\Desktop\\88credit_microservices\\88credit_ekyc\\blockchain\\contracts\\Types.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Types.sol",
+    "exportedSymbols": {
+      "Types": [
+        2144
+      ]
+    },
+    "id": 2145,
+    "license": "GPL-3.0",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2063,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".16",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "36:32:4"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Types",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "id": 2144,
+        "linearizedBaseContracts": [
+          2144
+        ],
+        "name": "Types",
+        "nameLocation": "78:5:4",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Types.Role",
+            "id": 2067,
+            "members": [
+              {
+                "id": 2064,
+                "name": "Admin",
+                "nameLocation": "110:5:4",
+                "nodeType": "EnumValue",
+                "src": "110:5:4"
+              },
+              {
+                "id": 2065,
+                "name": "Organization",
+                "nameLocation": "130:12:4",
+                "nodeType": "EnumValue",
+                "src": "130:12:4"
+              },
+              {
+                "id": 2066,
+                "name": "Customer",
+                "nameLocation": "157:8:4",
+                "nodeType": "EnumValue",
+                "src": "157:8:4"
+              }
+            ],
+            "name": "Role",
+            "nameLocation": "95:4:4",
+            "nodeType": "EnumDefinition",
+            "src": "90:86:4"
+          },
+          {
+            "canonicalName": "Types.OrganizationStatus",
+            "id": 2070,
+            "members": [
+              {
+                "id": 2068,
+                "name": "Active",
+                "nameLocation": "216:6:4",
+                "nodeType": "EnumValue",
+                "src": "216:6:4"
+              },
+              {
+                "id": 2069,
+                "name": "Inactive",
+                "nameLocation": "237:8:4",
+                "nodeType": "EnumValue",
+                "src": "237:8:4"
+              }
+            ],
+            "name": "OrganizationStatus",
+            "nameLocation": "187:18:4",
+            "nodeType": "EnumDefinition",
+            "src": "182:74:4"
+          },
+          {
+            "canonicalName": "Types.KycStatus",
+            "id": 2074,
+            "members": [
+              {
+                "id": 2071,
+                "name": "Pending",
+                "nameLocation": "287:7:4",
+                "nodeType": "EnumValue",
+                "src": "287:7:4"
+              },
+              {
+                "id": 2072,
+                "name": "KYCVerified",
+                "nameLocation": "309:11:4",
+                "nodeType": "EnumValue",
+                "src": "309:11:4"
+              },
+              {
+                "id": 2073,
+                "name": "KYCFailed",
+                "nameLocation": "335:9:4",
+                "nodeType": "EnumValue",
+                "src": "335:9:4"
+              }
+            ],
+            "name": "KycStatus",
+            "nameLocation": "267:9:4",
+            "nodeType": "EnumDefinition",
+            "src": "262:93:4"
+          },
+          {
+            "canonicalName": "Types.DataHashStatus",
+            "id": 2078,
+            "members": [
+              {
+                "id": 2075,
+                "name": "Pending",
+                "nameLocation": "391:7:4",
+                "nodeType": "EnumValue",
+                "src": "391:7:4"
+              },
+              {
+                "id": 2076,
+                "name": "Approved",
+                "nameLocation": "413:8:4",
+                "nodeType": "EnumValue",
+                "src": "413:8:4"
+              },
+              {
+                "id": 2077,
+                "name": "Rejected",
+                "nameLocation": "436:8:4",
+                "nodeType": "EnumValue",
+                "src": "436:8:4"
+              }
+            ],
+            "name": "DataHashStatus",
+            "nameLocation": "366:14:4",
+            "nodeType": "EnumDefinition",
+            "src": "361:94:4"
+          },
+          {
+            "canonicalName": "Types.User",
+            "id": 2091,
+            "members": [
+              {
+                "constant": false,
+                "id": 2080,
+                "mutability": "mutable",
+                "name": "name",
+                "nameLocation": "490:4:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2091,
+                "src": "483:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2079,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "483:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2082,
+                "mutability": "mutable",
+                "name": "email",
+                "nameLocation": "511:5:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2091,
+                "src": "504:12:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2081,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "504:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2084,
+                "mutability": "mutable",
+                "name": "id_",
+                "nameLocation": "534:3:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2091,
+                "src": "526:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2083,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "526:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2087,
+                "mutability": "mutable",
+                "name": "role",
+                "nameLocation": "552:4:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2091,
+                "src": "547:9:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_Role_$2067",
+                  "typeString": "enum Types.Role"
+                },
+                "typeName": {
+                  "id": 2086,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2085,
+                    "name": "Role",
+                    "nameLocations": [
+                      "547:4:4"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2067,
+                    "src": "547:4:4"
+                  },
+                  "referencedDeclaration": 2067,
+                  "src": "547:4:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Role_$2067",
+                    "typeString": "enum Types.Role"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2090,
+                "mutability": "mutable",
+                "name": "status",
+                "nameLocation": "585:6:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2091,
+                "src": "566:25:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_OrganizationStatus_$2070",
+                  "typeString": "enum Types.OrganizationStatus"
+                },
+                "typeName": {
+                  "id": 2089,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2088,
+                    "name": "OrganizationStatus",
+                    "nameLocations": [
+                      "566:18:4"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2070,
+                    "src": "566:18:4"
+                  },
+                  "referencedDeclaration": 2070,
+                  "src": "566:18:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_OrganizationStatus_$2070",
+                    "typeString": "enum Types.OrganizationStatus"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "User",
+            "nameLocation": "468:4:4",
+            "nodeType": "StructDefinition",
+            "scope": 2144,
+            "src": "461:137:4",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Types.Customer",
+            "id": 2106,
+            "members": [
+              {
+                "constant": false,
+                "id": 2093,
+                "mutability": "mutable",
+                "name": "name",
+                "nameLocation": "637:4:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "630:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2092,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "630:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2095,
+                "mutability": "mutable",
+                "name": "email",
+                "nameLocation": "658:5:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "651:12:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2094,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "651:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2097,
+                "mutability": "mutable",
+                "name": "mobileNumber",
+                "nameLocation": "680:12:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "673:19:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2096,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "673:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2099,
+                "mutability": "mutable",
+                "name": "id_",
+                "nameLocation": "710:3:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "702:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2098,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "702:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2101,
+                "mutability": "mutable",
+                "name": "kycVerifiedBy",
+                "nameLocation": "731:13:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "723:21:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2100,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "723:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2103,
+                "mutability": "mutable",
+                "name": "dataHash",
+                "nameLocation": "818:8:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "811:15:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2102,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "811:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2105,
+                "mutability": "mutable",
+                "name": "dataUpdatedOn",
+                "nameLocation": "935:13:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2106,
+                "src": "927:21:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2104,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "927:7:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Customer",
+            "nameLocation": "611:8:4",
+            "nodeType": "StructDefinition",
+            "scope": 2144,
+            "src": "604:351:4",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Types.Organization",
+            "id": 2120,
+            "members": [
+              {
+                "constant": false,
+                "id": 2108,
+                "mutability": "mutable",
+                "name": "name",
+                "nameLocation": "998:4:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "991:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2107,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "991:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2110,
+                "mutability": "mutable",
+                "name": "email",
+                "nameLocation": "1019:5:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "1012:12:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2109,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1012:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2112,
+                "mutability": "mutable",
+                "name": "id_",
+                "nameLocation": "1042:3:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "1034:11:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2111,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1034:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2114,
+                "mutability": "mutable",
+                "name": "ifscCode",
+                "nameLocation": "1062:8:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "1055:15:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2113,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1055:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2116,
+                "mutability": "mutable",
+                "name": "kycCount",
+                "nameLocation": "1087:8:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "1080:15:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint16",
+                  "typeString": "uint16"
+                },
+                "typeName": {
+                  "id": 2115,
+                  "name": "uint16",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1080:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2119,
+                "mutability": "mutable",
+                "name": "status",
+                "nameLocation": "1181:6:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2120,
+                "src": "1162:25:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_OrganizationStatus_$2070",
+                  "typeString": "enum Types.OrganizationStatus"
+                },
+                "typeName": {
+                  "id": 2118,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2117,
+                    "name": "OrganizationStatus",
+                    "nameLocations": [
+                      "1162:18:4"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2070,
+                    "src": "1162:18:4"
+                  },
+                  "referencedDeclaration": 2070,
+                  "src": "1162:18:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_OrganizationStatus_$2070",
+                    "typeString": "enum Types.OrganizationStatus"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Organization",
+            "nameLocation": "968:12:4",
+            "nodeType": "StructDefinition",
+            "scope": 2144,
+            "src": "961:307:4",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Types.KycRequest",
+            "id": 2143,
+            "members": [
+              {
+                "constant": false,
+                "id": 2122,
+                "mutability": "mutable",
+                "name": "id_",
+                "nameLocation": "1309:3:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1302:10:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2121,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1302:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2124,
+                "mutability": "mutable",
+                "name": "userId_",
+                "nameLocation": "1397:7:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1389:15:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2123,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1389:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2126,
+                "mutability": "mutable",
+                "name": "customerName",
+                "nameLocation": "1421:12:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1414:19:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2125,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1414:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2128,
+                "mutability": "mutable",
+                "name": "organizationId_",
+                "nameLocation": "1451:15:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1443:23:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 2127,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1443:7:4",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2130,
+                "mutability": "mutable",
+                "name": "organizationName",
+                "nameLocation": "1483:16:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1476:23:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2129,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1476:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2132,
+                "mutability": "mutable",
+                "name": "dataHash",
+                "nameLocation": "1516:8:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1509:15:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2131,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1509:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2134,
+                "mutability": "mutable",
+                "name": "updatedOn",
+                "nameLocation": "1542:9:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1534:17:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2133,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1534:7:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2137,
+                "mutability": "mutable",
+                "name": "status",
+                "nameLocation": "1571:6:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1561:16:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_KycStatus_$2074",
+                  "typeString": "enum Types.KycStatus"
+                },
+                "typeName": {
+                  "id": 2136,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2135,
+                    "name": "KycStatus",
+                    "nameLocations": [
+                      "1561:9:4"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2074,
+                    "src": "1561:9:4"
+                  },
+                  "referencedDeclaration": 2074,
+                  "src": "1561:9:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_KycStatus_$2074",
+                    "typeString": "enum Types.KycStatus"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2140,
+                "mutability": "mutable",
+                "name": "dataRequest",
+                "nameLocation": "1602:11:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1587:26:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_DataHashStatus_$2078",
+                  "typeString": "enum Types.DataHashStatus"
+                },
+                "typeName": {
+                  "id": 2139,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2138,
+                    "name": "DataHashStatus",
+                    "nameLocations": [
+                      "1587:14:4"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2078,
+                    "src": "1587:14:4"
+                  },
+                  "referencedDeclaration": 2078,
+                  "src": "1587:14:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_DataHashStatus_$2078",
+                    "typeString": "enum Types.DataHashStatus"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2142,
+                "mutability": "mutable",
+                "name": "additionalNotes",
+                "nameLocation": "1675:15:4",
+                "nodeType": "VariableDeclaration",
+                "scope": 2143,
+                "src": "1668:22:4",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 2141,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1668:6:4",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "KycRequest",
+            "nameLocation": "1281:10:4",
+            "nodeType": "StructDefinition",
+            "scope": 2144,
+            "src": "1274:575:4",
+            "visibility": "public"
+          }
+        ],
+        "scope": 2145,
+        "src": "70:1781:4",
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "src": "36:1816:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.21+commit.d9974bed.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x8B57846Cd6ACbccDC669e4586a5d3919a5e05683",
+      "transactionHash": "0xe66d9ea06fd6f8e7a575229ca229b0e49c014fd4f5cfbecbe9effb956284fa59"
+    }
+  },
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2024-06-07T02:57:32.014Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

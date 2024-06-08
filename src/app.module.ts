@@ -12,6 +12,7 @@ import { RequestModule } from './app/request/request.module';
 import { TransformationInterceptor } from './core/interceptors';
 import { AccessTokenJwtGuard } from './core/guards';
 import { AccessTokenStrategy } from './core/strategies';
+import { BlockchainModule } from './app/blockchain/blockchain.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AccessTokenStrategy } from './core/strategies';
     OcrModule,
     FaceModule,
     RequestModule,
+    BlockchainModule,
   ],
   controllers: [AppController],
   providers: [
