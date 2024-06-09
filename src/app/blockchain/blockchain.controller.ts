@@ -67,9 +67,9 @@ export class BlockchainController {
   //#endregion
 
   //#region Organization API endpoints
-  @Get('organizations/:id/customers')
+  @Get('organizations/:oid/customers')
   async getOrganizationCustomers(
-    @Param('id') id: string,
+    @Param('oid') id: string,
     @Query('page') page: number,
   ) {
     const res = await this.blockchainService.getCustomersOfOrganization(
@@ -121,21 +121,25 @@ export class BlockchainController {
 
   @Get('organizations/:oid/customers/search/:uid')
   async searchCustomers(@Param('oid') oid: string, @Param('uid') uid: string) {
-    return this.blockchainService.searchCustomers(oid, uid);
+    const res = await this.blockchainService.searchCustomers(oid, uid);
+    return {
+      found: res[0],
+      customers: res[1],
+      requests: res[2],
+    };
   }
 
   //#endregion
 
   //#region Customer API endpoints
 
-  @Get('customers/:id/organizations')
+  @Get('customers/:uid/organizations')
   async getOrganizationRequests(
-    @Query('page') page: number,
-    @Query('uid') uid: string,
+    @Query('page') page: number = 1,
+    @Param('uid') uid: string,
   ) {
     page = isNaN(page) || Number(page) < 1 ? 1 : page;
     const res = await this.blockchainService.getOrganizationRequests(uid, page);
-
     return {
       page: res[0],
       items: res[1],
