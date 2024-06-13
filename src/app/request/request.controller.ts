@@ -1,40 +1,38 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { GetCurrentUserId } from 'src/core/decorators';
 import { RequestService } from './request.service';
-import { ClientProxy, MessagePattern } from '@nestjs/microservices';
-import { RpcBody, RpcParam, RpcUserId } from 'src/common/decorators';
-import { InjectModel } from '@nestjs/mongoose';
 
-@Controller()
+@Controller('request')
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
-  @MessagePattern('ekyc.request.get-or-create')
-  getLatestUnfinishedRequestOrCreate(@RpcUserId() userId: string) {
+  @Post('latest')
+  getLatestUnfinishedRequestOrCreate(@GetCurrentUserId() userId: string) {
     return this.requestService.getLatestUnfinishedRequestOrCreate(userId);
   }
 
-  @MessagePattern('ekyc.request.submit')
+  @Post(':id/submit')
   submitRequest(
-    @RpcUserId() userId: string,
-    @RpcParam('id') requestId: string,
+    @GetCurrentUserId() userId: string,
+    @Param('id') requestId: string,
   ) {
     return this.requestService.submitRequest(userId, requestId);
   }
 
-  @MessagePattern('ekyc.request.get-by-id')
-  findOne(@RpcUserId() userId: string, @RpcParam('id') id: string) {
+  @Get(':id')
+  findOne(@GetCurrentUserId() userId: string, @Param('id') id: string) {
     return this.requestService.findById(userId, id);
   }
 
-  @MessagePattern('ekyc.request.accept')
-  acceptRequest(@RpcParam('id') requestId: string) {
+  @Post(':id/accept')
+  acceptRequest(@Param('id') requestId: string) {
     return this.requestService.acceptRequest(requestId);
   }
 
-  @MessagePattern('ekyc.request.reject')
+  @Post(':id/reject')
   rejectRequest(
-    @RpcParam('id') requestId: string,
-    @RpcBody()
+    @Param('id') requestId: string,
+    @Body()
     body: {
       reason: string;
     },
@@ -42,7 +40,7 @@ export class RequestController {
     return this.requestService.rejectRequest(requestId, body.reason);
   }
 
-  @MessagePattern('ekyc.request.get-all')
+  @Get()
   findAll() {
     return this.requestService.findAll();
   }

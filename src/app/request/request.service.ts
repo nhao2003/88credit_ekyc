@@ -89,8 +89,11 @@ export class RequestService {
     return request.save();
   }
 
-  findById(userId: string, requestId: string) {
-    const request = this.ekycRequestModel.findOne({ _id: requestId, userId });
+  async findById(userId: string, requestId: string) {
+    const request = await this.ekycRequestModel.findOne({
+      _id: requestId,
+      userId,
+    });
     if (!request) {
       throw new NotFoundException('Request not found');
     }

@@ -19,15 +19,14 @@ import { EnvConstants } from 'src/common/constants/env/env.constants';
           ekycTokenId: configService.get<string>(EnvConstants.ekycTokenId),
           ekycTokenKey: configService.get<string>(EnvConstants.ekycTokenKey),
         });
-        // return new EkycServiceImpl(httpService, {
-        //   ekycBaseUrl: configService.get<string>(EnvConstants.ekycBaseUrl),
-        //   ekycAccessToken: configService.get<string>(
-        //     EnvConstants.ekycAccessToken,
-        //   ),
-        //   ekycTokenId: configService.get<string>(EnvConstants.ekycTokenId),
-        //   ekycTokenKey: configService.get<string>(EnvConstants.ekycTokenKey),
-        // });
-        return new MockEkycService();
+        return new EkycServiceImpl(httpService, {
+          ekycBaseUrl: configService.get<string>(EnvConstants.ekycBaseUrl),
+          ekycAccessToken: configService.get<string>(
+            EnvConstants.ekycAccessToken,
+          ),
+          ekycTokenId: configService.get<string>(EnvConstants.ekycTokenId),
+          ekycTokenKey: configService.get<string>(EnvConstants.ekycTokenKey),
+        });
       },
       inject: [HttpService, ConfigService],
     },

@@ -51,7 +51,7 @@ export class OcrService {
       userId,
       type: EkycFileType.frontIdentityCard,
     });
-    console.log(fileUploaded);
+    console.log('File uploaded: ', fileUploaded);
     const frontImageResponse = await this.ekycService.extractFrontImage({
       img_front: fileUploaded.hash,
       type: EkycFrontImageType.CMND,

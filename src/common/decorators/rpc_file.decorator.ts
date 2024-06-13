@@ -6,6 +6,9 @@ export const RpcFile = createParamDecorator(
     const ctx: RpcArgumentsHost = context.switchToRpc();
     const request = ctx.getData();
     // return data ? request.file?[data] : request.file;
-    return data ? request?.file[data] : request?.file;
+    const file = data ? request?.file[data] : request?.file;
+    const blob = new Blob([file.buffer], { type: file.mimetype });
+    console.log('blob', blob);
+    return file;
   },
 );

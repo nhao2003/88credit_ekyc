@@ -17,5 +17,7 @@ RUN yarn build
 # Set the environment variables
 ENV RABBITMQ_HOST=rabbitmq
 
+EXPOSE 5000:5000
+
 # Serve the app
 CMD ["yarn", "preview"]

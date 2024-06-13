@@ -65,6 +65,7 @@ export class FileService {
     ]);
     const url = res[0];
     const ekycReponse = res[1];
+    console.log('ekycReponse', ekycReponse);
     const file = await this.ekycFileModel.create({
       userId: createFileDto.userId,
       ekycFileType: createFileDto.type,
