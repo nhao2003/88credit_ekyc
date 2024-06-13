@@ -51,7 +51,7 @@ export class FileService {
     return data;
   }
 
-  async addFile(createFileDto: CreateFileDto) {
+  async addFile(createFileDto: CreateFileDto): Promise<EkycFile> {
     const res = await Promise.all([
       this.uploadToServerStorage(
         createFileDto.file,

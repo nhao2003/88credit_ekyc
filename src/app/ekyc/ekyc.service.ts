@@ -1,6 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import {
   FrontImageExtractRequest,
@@ -39,6 +43,7 @@ export abstract class EkycService {
 @Injectable()
 export class EkycServiceImpl extends EkycService {
   private readonly log = new Logger(EkycService.name);
+  private axiosConfig: Record<string, any>;
   constructor(
     private readonly httpService: HttpService,
     config: EkycServiceConfig,
@@ -52,7 +57,7 @@ export class EkycServiceImpl extends EkycService {
     this.httpService.axiosRef.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         config.headers['Token-id'] = ekycTokenId;
-        config.headers['Token-Key'] = ekycTokenKey;
+        config.headers['Token-key'] = ekycTokenKey;
         return config;
       },
       (error) => Promise.reject(error),
@@ -85,11 +90,12 @@ export class EkycServiceImpl extends EkycService {
   async extractFrontImage(
     data: FrontImageExtractRequest,
   ): Promise<FrontImageReponse> {
+    console.log('data', data);
     return await firstValueFrom(
       this.httpService.post('/ai/v1/ocr/id/front', data).pipe(
         map((response) => response.data),
-        catchError((error) => {
-          console.error(error);
+        catchError((error: AxiosError) => {
+          console.error(JSON.stringify(error));
           throw error;
         }),
       ),
@@ -157,7 +163,7 @@ export class MockEkycService extends EkycService {
       message: 'IDG-00000000',
       server_version: '1.5.15',
       object: {
-        origin_location: 'Hòa Thọ Đông, Cẩm Lệ, Đà Nẵng',
+        origin_location: 'Tam Quang, Núi Thành, Quảng Nam',
         msg: 'OK',
         name_prob: 0.9999999908300546,
         gender: 'Nam',
@@ -170,7 +176,7 @@ export class MockEkycService extends EkycService {
         origin_location_prob: 0.9999989272686409,
         corner_warning: 'no',
         general_warning: [],
-        valid_date: '14/05/2028',
+        valid_date: '27/12/2023',
         dupplication_warning: false,
         issue_date: '-',
         id_fake_prob: 0,
@@ -194,7 +200,7 @@ export class MockEkycService extends EkycService {
         dob_fake_warning_prob: 0.05551183223724365,
         birth_day_prob: 0.9999918818473816,
         issue_place: '-',
-        recent_location: 'Tổ 36\nHòa Thọ Đông, Cẩm Lệ, Đà Nẵng',
+        recent_location: 'Sâm linh Tây, Tam Quang, Núi Thành, Quảng Nam',
         id_fake_warning: 'no',
         dob_fake_warning: false,
         name_fake_warning: 'real',
@@ -218,7 +224,7 @@ export class MockEkycService extends EkycService {
           bright_spot_score: 0,
           resolution: [450, 720],
         },
-        birth_day: '14/05/2003',
+        birth_day: '04/06/2003',
         issue_date_prob: 0,
         citizen_id: '-',
         recent_location_prob: 0.9999957885746102,
@@ -227,22 +233,22 @@ export class MockEkycService extends EkycService {
         post_code: [
           {
             debug: 'tree',
-            city: ['48', 'Thành phố Đà Nẵng', 1],
-            district: ['495', 'Quận Cẩm Lệ', 1],
-            ward: ['20312', 'Phường Hòa Thọ Đông', 1],
-            detail: 'Tổ 36',
+            city: ['48', 'Tỉnh Quảng Nam', 1],
+            district: ['495', 'Huyện Núi Thành', 1],
+            ward: ['20312', 'Xã Tam Quang', 1],
+            detail: 'Sâm linh Tây',
             type: 'address',
           },
           {
             debug: 'tree',
-            city: ['48', 'Thành phố Đà Nẵng', 1],
-            district: ['495', 'Quận Cẩm Lệ', 1],
-            ward: ['20312', 'Phường Hòa Thọ Đông', 1],
-            detail: '',
+            city: ['48', 'Tỉnh Quảng Nam', 1],
+            district: ['495', 'Huyện Núi Thành', 1],
+            ward: ['20312', 'Xã Tam Quang', 1],
+            detail: 'Sâm linh Tây',
             type: 'hometown',
           },
         ],
-        name: 'LÊ MINH KHÁNH',
+        name: 'PHAN VĂN MINH',
         tampering: {
           is_legal: 'yes',
           warning: [],
@@ -288,11 +294,11 @@ export class MockEkycService extends EkycService {
           recaptured_prob: 0.9693907499313354,
         },
         general_warning: [],
-        features: 'Nốt ruồi ngay đuôi lông mày trái',
+        features: 'Sẹo chám C 0,5cn trên sau cánh mũi phải',
         issue_date_prob: 0.9999048233032226,
         mrz_valid_score: 100,
         issue_place_prob: 0.99999999,
-        issue_date: '12/04/2021',
+        issue_date: '27/12/2021',
         mrz: [
           'IDVNM2030009631070203000963<<2',
           '0301017M2801016VNM<<<<<<<<<<<2',

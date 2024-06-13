@@ -6,6 +6,8 @@ import {
   EkycRequest,
   EkycRequestSchema,
 } from 'src/core/schema/ekyc-request.schema';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { EnvConstants } from 'src/common/constants/env/env.constants';
 
 @Module({
   imports: [

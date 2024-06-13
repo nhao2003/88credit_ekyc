@@ -41,6 +41,20 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             queue: 'storage_queue',
           },
         },
+        {
+          name: '88Credit_server',
+          transport: Transport.RMQ,
+          options: {
+            urls: [
+              'amqp://guest:guest@' +
+                (process.env[EnvConstants.RABBITMQ_HOST] ??
+                  'localhost' ??
+                  'localhost') +
+                ':5672',
+            ],
+            queue: 'server_queue',
+          },
+        },
       ],
       isGlobal: true,
     }),

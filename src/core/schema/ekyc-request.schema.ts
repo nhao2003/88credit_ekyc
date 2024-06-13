@@ -17,8 +17,8 @@ export enum EkycStatus {
   versionKey: false,
 })
 export class EkycRequest extends Document {
-  @Prop({ type: Types.ObjectId, required: true, index: true })
-  userId: Types.ObjectId;
+  @Prop({ type: String, required: true, index: true })
+  userId: string;
 
   @Prop({ required: true, default: EkycStatus.initiated, enum: EkycStatus })
   status: EkycStatus;

@@ -1,9 +1,5 @@
-import { Module, Global, DynamicModule } from '@nestjs/common';
-import {
-  EkycService,
-  EkycServiceConfig,
-  MockEkycService,
-} from './ekyc.service';
+import { Module, Global } from '@nestjs/common';
+import { EkycService, EkycServiceImpl, MockEkycService } from './ekyc.service';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { EnvConstants } from 'src/common/constants/env/env.constants';
@@ -15,7 +11,15 @@ import { EnvConstants } from 'src/common/constants/env/env.constants';
     {
       provide: EkycService,
       useFactory: (httpService: HttpService, configService: ConfigService) => {
-        // return new EkycService(httpService, {
+        console.log({
+          ekycBaseUrl: configService.get<string>(EnvConstants.ekycBaseUrl),
+          ekycAccessToken: configService.get<string>(
+            EnvConstants.ekycAccessToken,
+          ),
+          ekycTokenId: configService.get<string>(EnvConstants.ekycTokenId),
+          ekycTokenKey: configService.get<string>(EnvConstants.ekycTokenKey),
+        });
+        // return new EkycServiceImpl(httpService, {
         //   ekycBaseUrl: configService.get<string>(EnvConstants.ekycBaseUrl),
         //   ekycAccessToken: configService.get<string>(
         //     EnvConstants.ekycAccessToken,

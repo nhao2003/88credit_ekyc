@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,6 +11,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EkycService } from '../ekyc/ekyc.service';
 import { EkycFile } from 'src/core/schema/ekyc-file.schema';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class RequestService {
@@ -17,6 +19,7 @@ export class RequestService {
     @InjectModel(EkycRequest.name)
     private readonly ekycRequestModel: Model<EkycRequest>,
     private readonly ekycService: EkycService,
+    @Inject('88Credit_server') private readonly client: ClientProxy,
   ) {}
   private create(userId: string) {
     return this.ekycRequestModel.create({ userId });
@@ -93,5 +96,40 @@ export class RequestService {
       throw new NotFoundException('Request not found');
     }
     return request;
+  }
+
+  async acceptRequest(requestId: string) {
+    const request = await this.ekycRequestModel.findOne({
+      _id: requestId,
+    });
+    if (!request) {
+      throw new NotFoundException('Request not found');
+    }
+    request.status = EkycStatus.approved;
+    request.approvedAt = new Date();
+    this.client.emit('ekyc.request.accept', {
+      userId: request.userId,
+    });
+    return request.save();
+  }
+
+  async rejectRequest(requestId: string, reason: string) {
+    const request = await this.ekycRequestModel.findOne({
+      _id: requestId,
+    });
+    if (!request) {
+      throw new NotFoundException('Request not found');
+    }
+    request.status = EkycStatus.rejected;
+    request.reason = reason;
+    this.client.emit('ekyc.request.reject', {
+      userId: request.userId,
+      reason: request.reason,
+    });
+    return request.save();
+  }
+
+  findAll() {
+    return this.ekycRequestModel.find();
   }
 }
