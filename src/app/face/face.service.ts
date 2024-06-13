@@ -56,7 +56,6 @@ export class FaceService {
       userId,
       type: EkycFileType.videoSelfie,
     });
-    request.videoSelfieUrl = url;
     return request.save();
   }
 }
