@@ -35,9 +35,6 @@ export class EkycRequest extends Document {
   @Prop({ required: false, ref: EkycFile.name, type: Types.ObjectId })
   face: string | EkycFile;
 
-  @Prop({ required: false, type: String })
-  videoSelfieUrl: string | null;
-
   @Prop({ required: false, type: Types.Map })
   frontIdentityCardOcrResult: FrontImageReponseObject | null;
 

@@ -60,8 +60,7 @@ export class RequestService {
     if (
       !request.backIdentityCard ||
       !request.frontIdentityCard ||
-      !request.face ||
-      !request.videoSelfieUrl
+      !request.face
     ) {
       throw new BadRequestException('Missing required files for ekyc', {
         cause: {
