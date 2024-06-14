@@ -85,7 +85,10 @@ export class RequestService {
       });
     }
     request.faceComparisonResult = faceComparisonResult.object;
-    request.status = EkycStatus.pending;
+    request.status = EkycStatus.approved;
+    this.client.send('user.verified', {
+      userId: request.userId,
+    });
     return request.save();
   }
 
