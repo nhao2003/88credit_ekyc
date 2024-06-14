@@ -46,10 +46,14 @@ export class RequestService {
   }
 
   async submitRequest(userId: string, requestId: string) {
-    const request = await this.ekycRequestModel.findOne({
-      _id: requestId,
-      userId,
-    });
+    const request = await this.ekycRequestModel
+      .findOne({
+        _id: requestId,
+        userId,
+      })
+      .populate('frontIdentityCard')
+      .populate('backIdentityCard')
+      .populate('face');
     if (!request) {
       throw new NotFoundException('Ekyc request not found');
     }
@@ -71,6 +75,7 @@ export class RequestService {
         description: 'Missing required files for ekyc',
       });
     }
+    console.log('request', request);
     const faceComparisonResult = await this.ekycService.faceCompareToDocument({
       client_session:
         'IOS_iphone6plus_ios13_Device_1.3.6_CC332797-E3E5-475F-8546-C9C4AA348837_1581429032',

@@ -60,7 +60,10 @@ export class EkycServiceImpl extends EkycService {
         config.headers['Token-key'] = ekycTokenKey;
         return config;
       },
-      (error) => Promise.reject(error),
+      (error) => {
+        this.log.error(error);
+        return Promise.reject(error);
+      },
     );
   }
 
